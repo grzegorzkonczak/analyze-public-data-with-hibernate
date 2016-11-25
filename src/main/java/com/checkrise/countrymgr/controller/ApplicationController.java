@@ -2,6 +2,10 @@ package com.checkrise.countrymgr.controller;
 
 import com.checkrise.countrymgr.View.MessagePrompter;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 public class ApplicationController {
     private MessagePrompter prompter;
     private CountryHibernateDAO dao;
@@ -23,11 +27,30 @@ public class ApplicationController {
                     prompter.displayCountryList(dao.fetchAllCountries());
                     break;
                 case 2:
+                    // Calculate and display statistics about countries
+                    Map<String, BigDecimal> statistics = calculateStatistics();
+                    prompter.displayStatistics(statistics);
+                    break;
+                case 3:
                     // Displays goodbye message to user
                     prompter.displayGoodbyeMessage();
                     break;
             }
-        } while (choice != 2);
+        } while (choice != 3);
         System.exit(0);
+    }
+
+    // Calculates minimum and maximum of each indicator.
+    // Calculates correlation coefficient.
+    // Returns results in map
+    private Map<String,BigDecimal> calculateStatistics() {
+        Map<String, BigDecimal> statistics = new HashMap<>();
+        StatisticsCalculator calculator = new StatisticsCalculator(dao);
+        statistics.put("minAdultLiteracy", calculator.calculateMinLiteracy());
+        statistics.put("maxAdultLiteracy", calculator.calculateMaxLiteracy());
+        statistics.put("minInternetUsers", calculator.calculateMinInternetUsers());
+        statistics.put("maxInternetUsers", calculator.calculateMaxInternetUsers());
+        statistics.put("coefficient", calculator.calculateCoefficient());
+        return statistics;
     }
 }

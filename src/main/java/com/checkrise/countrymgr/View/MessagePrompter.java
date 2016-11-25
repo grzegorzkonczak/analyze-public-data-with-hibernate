@@ -3,6 +3,7 @@ package com.checkrise.countrymgr.View;
 
 import com.checkrise.countrymgr.model.Country;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,8 @@ public class MessagePrompter {
     public MessagePrompter() {
         menu = new HashMap<>();
         menu.put(1, "Display all countries");
-        menu.put(2, "Exit Country Viewer");
+        menu.put(2, "Display Statistics");
+        menu.put(3, "Exit Country Viewer");
     }
 
     // prompts user to choose action
@@ -30,10 +32,12 @@ public class MessagePrompter {
         return input.nextInt();
     }
 
+    // Displays welcome message to user
     public void displayWelcomeMessage() {
         System.out.println("Welcome to Country Data Viewer!");
     }
 
+    // Displays goodbye message to user
     public void displayGoodbyeMessage() {
         System.out.println("Thank you for using Country Data Viewer!");
     }
@@ -61,5 +65,14 @@ public class MessagePrompter {
                         country.getInternetUsers(), "--");
             }
         }
+    }
+
+    // Displays statistics to user
+    public void displayStatistics(Map<String, BigDecimal> statistics) {
+        System.out.printf("%nMinimum Adult Literacy: %.2f%n", statistics.get("minAdultLiteracy"));
+        System.out.printf("%nMaximum Adult Literacy: %.2f%n", statistics.get("maxAdultLiteracy"));
+        System.out.printf("%nMinimum Internet Users: %.2f%n", statistics.get("minInternetUsers"));
+        System.out.printf("%nMaximum Internet Users: %.2f%n", statistics.get("maxInternetUsers"));
+        System.out.printf("%nCorrelation Coefficient: %.2f%n", statistics.get("coefficient"));
     }
 }
