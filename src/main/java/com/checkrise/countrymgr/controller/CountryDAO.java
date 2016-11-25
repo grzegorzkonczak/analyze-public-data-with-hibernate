@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface CountryDAO {
     List<Country> fetchAllCountries();
+
+    void update(Country country);
+
+    Country findByCode(String code);
 }

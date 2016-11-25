@@ -4,10 +4,7 @@ package com.checkrise.countrymgr.View;
 import com.checkrise.countrymgr.model.Country;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class MessagePrompter {
     private static final Scanner input = new Scanner(System.in);
@@ -19,7 +16,8 @@ public class MessagePrompter {
         menu = new HashMap<>();
         menu.put(1, "Display all countries");
         menu.put(2, "Display Statistics");
-        menu.put(3, "Exit Country Viewer");
+        menu.put(3, "Edit Country Data");
+        menu.put(4, "Exit Country Viewer");
     }
 
     // prompts user to choose action
@@ -74,5 +72,42 @@ public class MessagePrompter {
         System.out.printf("%nMinimum Internet Users: %.2f%n", statistics.get("minInternetUsers"));
         System.out.printf("%nMaximum Internet Users: %.2f%n", statistics.get("maxInternetUsers"));
         System.out.printf("%nCorrelation Coefficient: %.2f%n", statistics.get("coefficient"));
+    }
+
+    // Prompts user for information about country he wants to update
+    public Country promptEditAction(List<Country> countries) {
+        System.out.printf("%nYou will update country data now%n");
+        Country country = new Country();
+
+        // Display all country codes for user to choose
+        int count = 0;
+        for (Country c : countries){
+            System.out.print(c.getCode() + " | ");
+            count++;
+            if (count % 10 == 0){
+                System.out.println();
+            }
+        }
+        System.out.println("\nPlease enter country code from above list: ");
+
+        // Prompts user for data to update
+        input.nextLine();
+        country.setCode(input.nextLine());
+        System.out.println("Please enter country name: ");
+        country.setName(input.nextLine());
+        try {
+            System.out.println("Please enter country Internet User indicator: ");
+            Double dv = Double.parseDouble(input.nextLine());
+            country.setInternetUsers(BigDecimal.valueOf(dv));
+            System.out.println("Please enter country Adult Literacy Rate indicator: ");
+            dv = Double.parseDouble(input.nextLine());
+            country.setAdultLiteracyRate(BigDecimal.valueOf(dv));
+        // If wrong input return null and end method
+        } catch (InputMismatchException | NumberFormatException ex){
+            System.out.println("Wrong input format, try again...");
+            return null;
+        }
+
+        return country;
     }
 }

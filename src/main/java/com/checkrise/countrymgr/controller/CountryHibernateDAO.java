@@ -46,4 +46,37 @@ public class CountryHibernateDAO implements CountryDAO {
 
         return countries;
     }
+
+    @Override
+    public void update(Country country) {
+        // Open session
+        Session session = sessionFactory.openSession();
+
+        // Begin transaction
+        session.beginTransaction();
+
+        // Use session to update contact
+        session.update(country);
+
+        // Commit the transaction
+        session.getTransaction().commit();
+
+        // Close the session
+        session.close();
+    }
+
+    @Override
+    public Country findByCode(String code) {
+        // Open session
+        Session session = sessionFactory.openSession();
+
+        // Retrieve the persistent object (or null if not found)
+        Country country = session.get(Country.class, code);
+
+        // Close the session
+        session.close();
+
+        // Return the contact object
+        return country;
+    }
 }
