@@ -42,11 +42,16 @@ public class ApplicationController {
                     }
                     break;
                 case 4:
+                    // Add new entry to database
+                    Country country = prompter.promptForNewCountry();
+                    dao.save(country);
+                    break;
+                case 5:
                     // Displays goodbye message to user
                     prompter.displayGoodbyeMessage();
                     break;
             }
-        } while (choice != 4);
+        } while (choice != 5);
         System.exit(0);
     }
 

@@ -20,6 +20,13 @@ public class Country {
     // Default constructor for JPA
     public Country() {}
 
+    public Country(CountryBuilder builder) {
+        this.code = builder.code;
+        this.name = builder.name;
+        this.internetUsers = builder.internetUsers;
+        this.adultLiteracyRate = builder.adultLiteracyRate;
+    }
+
     @Override
     public String toString() {
         return "Country{" +
@@ -60,5 +67,32 @@ public class Country {
 
     public void setAdultLiteracyRate(BigDecimal adultLiteracyRate) {
         this.adultLiteracyRate = adultLiteracyRate;
+    }
+
+    // Inner class for utilizing builder pattern
+    public static class CountryBuilder {
+        private String code;
+        private String name;
+        private BigDecimal internetUsers;
+        private BigDecimal adultLiteracyRate;
+
+        public CountryBuilder(String code, String name){
+            this.code = code;
+            this.name = name;
+        }
+
+        public CountryBuilder withInternetUsers(BigDecimal internetUsers){
+            this.internetUsers = internetUsers;
+            return this;
+        }
+
+        public CountryBuilder withAdultLiteracyRate(BigDecimal adultLiteracyRate){
+            this.adultLiteracyRate = adultLiteracyRate;
+            return this;
+        }
+
+        public Country build() {
+            return new Country(this);
+        }
     }
 }

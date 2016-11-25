@@ -47,6 +47,7 @@ public class CountryHibernateDAO implements CountryDAO {
         return countries;
     }
 
+    // Update existing entry
     @Override
     public void update(Country country) {
         // Open session
@@ -55,7 +56,7 @@ public class CountryHibernateDAO implements CountryDAO {
         // Begin transaction
         session.beginTransaction();
 
-        // Use session to update contact
+        // Use session to update country
         session.update(country);
 
         // Commit the transaction
@@ -65,6 +66,7 @@ public class CountryHibernateDAO implements CountryDAO {
         session.close();
     }
 
+    // Find and return country by code
     @Override
     public Country findByCode(String code) {
         // Open session
@@ -78,5 +80,24 @@ public class CountryHibernateDAO implements CountryDAO {
 
         // Return the contact object
         return country;
+    }
+
+    // Save country to database
+    @Override
+    public void save(Country country) {
+        // Open session
+        Session session = sessionFactory.openSession();
+
+        // Begin transaction
+        session.beginTransaction();
+
+        // Use session to save country
+        session.save(country);
+
+        // Commit the transaction
+        session.getTransaction().commit();
+
+        // Close the session
+        session.close();
     }
 }

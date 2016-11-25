@@ -2,6 +2,7 @@ package com.checkrise.countrymgr.View;
 
 
 import com.checkrise.countrymgr.model.Country;
+import com.checkrise.countrymgr.model.Country.CountryBuilder;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -17,7 +18,8 @@ public class MessagePrompter {
         menu.put(1, "Display all countries");
         menu.put(2, "Display Statistics");
         menu.put(3, "Edit Country Data");
-        menu.put(4, "Exit Country Viewer");
+        menu.put(4, "Add new Country");
+        menu.put(5, "Exit Country Viewer");
     }
 
     // prompts user to choose action
@@ -109,5 +111,38 @@ public class MessagePrompter {
         }
 
         return country;
+    }
+
+    // Prompts user for information about country he wants to add to database
+    public Country promptForNewCountry() {
+        System.out.printf("%nYou will add country to database now%n");
+        input.nextLine();
+
+        // Code and name are mandatory
+        System.out.println("\nPlease enter country code : ");
+        String code = input.nextLine();
+        System.out.println("Please enter country name: ");
+        String name = input.nextLine();
+
+        CountryBuilder builder = new CountryBuilder(code, name);
+
+        // Optional fields for creation
+
+        // Optional internet users
+        System.out.println("If you want to add internet users indicator enter 'Y' and press enter...");
+        if (input.nextLine().equalsIgnoreCase("Y")){
+            System.out.println("Please enter country Internet User indicator: ");
+            Double dv = Double.parseDouble(input.nextLine());
+            builder.withInternetUsers(BigDecimal.valueOf(dv));
+        }
+        // Optional adult literacy
+        System.out.println("If you want to add adult literacy indicator enter 'Y' and press enter...");
+        if (input.nextLine().equalsIgnoreCase("Y")){
+            System.out.println("Please enter country Adult Literacy indicator: ");
+            Double dv = Double.parseDouble(input.nextLine());
+            builder.withAdultLiteracyRate(BigDecimal.valueOf(dv));
+        }
+
+        return builder.build();
     }
 }

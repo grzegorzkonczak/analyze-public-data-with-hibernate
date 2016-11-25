@@ -11,4 +11,6 @@ public interface CountryDAO {
     void update(Country country);
 
     Country findByCode(String code);
+
+    void save(Country country);
 }
