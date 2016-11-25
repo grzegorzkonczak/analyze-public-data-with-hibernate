@@ -38,8 +38,28 @@ public class MessagePrompter {
         System.out.println("Thank you for using Country Data Viewer!");
     }
 
-    // Displays default list of all countries
+    // Displays formatted list of all countries
     public void displayCountryList(List<Country> countries) {
-        countries.forEach(System.out::println);
+        System.out.printf("%-30s%20s%20s%n", "Country", "Internet Users", "Literacy");
+        System.out.printf("-----------------------------------------------------------------------%n");
+        for(Country country : countries){
+            // Displays countries with full data
+            if (country.getInternetUsers() != null && country.getAdultLiteracyRate() != null) {
+                System.out.printf("%-30s%20.2f%20.2f%n", country.getName(),
+                        country.getInternetUsers(), country.getAdultLiteracyRate());
+            //  Displays countries with missing both numeric pieces of data
+            } else if (country.getInternetUsers() == null && country.getAdultLiteracyRate() == null){
+                System.out.printf("%-30s%20s%20s%n", country.getName(),
+                        "--", "--");
+            //  Displays countries when no data about internet users present
+            } else if (country.getInternetUsers() == null) {
+                System.out.printf("%-30s%20s%20.2f%n", country.getName(),
+                        "--", country.getAdultLiteracyRate());
+            //  Displays countries when no data about adult literacy present
+            } else if (country.getAdultLiteracyRate() == null) {
+                System.out.printf("%-30s%20.2f%20s%n", country.getName(),
+                        country.getInternetUsers(), "--");
+            }
+        }
     }
 }
