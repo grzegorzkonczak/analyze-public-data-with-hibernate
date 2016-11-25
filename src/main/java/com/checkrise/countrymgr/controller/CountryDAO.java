@@ -13,4 +13,6 @@ public interface CountryDAO {
     Country findByCode(String code);
 
     void save(Country country);
+
+    void delete(Country country);
 }

@@ -100,4 +100,22 @@ public class CountryHibernateDAO implements CountryDAO {
         // Close the session
         session.close();
     }
+
+    @Override
+    public void delete(Country country) {
+        // Open session
+        Session session = sessionFactory.openSession();
+
+        // Begin transaction
+        session.beginTransaction();
+
+        // Use session to update contact
+        session.delete(country);
+
+        // Commit the transaction
+        session.getTransaction().commit();
+
+        // Close the session
+        session.close();
+    }
 }

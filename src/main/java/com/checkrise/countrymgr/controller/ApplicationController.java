@@ -1,6 +1,6 @@
 package com.checkrise.countrymgr.controller;
 
-import com.checkrise.countrymgr.View.MessagePrompter;
+import com.checkrise.countrymgr.view.MessagePrompter;
 import com.checkrise.countrymgr.model.Country;
 
 import java.math.BigDecimal;
@@ -34,7 +34,6 @@ public class ApplicationController {
                     break;
                 case 3:
                     // Edit selected country data
-
                     // Prompt user about edit action for country information
                     Country countryUpdated = prompter.promptEditAction(dao.fetchAllCountries());
                     if (countryUpdated != null || dao.findByCode(countryUpdated.getCode()) != null) {
@@ -47,11 +46,20 @@ public class ApplicationController {
                     dao.save(country);
                     break;
                 case 5:
+                    // Delete country from database
+                    String code = prompter.promptForCountryCode(dao.fetchAllCountries());
+                    if (dao.findByCode(code) != null) {
+                        dao.delete(dao.findByCode(code));
+                    }
+                    break;
+                case 6:
                     // Displays goodbye message to user
                     prompter.displayGoodbyeMessage();
                     break;
+                default:
+                    prompter.promptWrongAction();
             }
-        } while (choice != 5);
+        } while (choice != 6);
         System.exit(0);
     }
 

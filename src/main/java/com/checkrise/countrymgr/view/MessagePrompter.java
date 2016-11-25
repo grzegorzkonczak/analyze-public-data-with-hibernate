@@ -1,4 +1,4 @@
-package com.checkrise.countrymgr.View;
+package com.checkrise.countrymgr.view;
 
 
 import com.checkrise.countrymgr.model.Country;
@@ -19,7 +19,8 @@ public class MessagePrompter {
         menu.put(2, "Display Statistics");
         menu.put(3, "Edit Country Data");
         menu.put(4, "Add new Country");
-        menu.put(5, "Exit Country Viewer");
+        menu.put(5, "Delete Country");
+        menu.put(6, "Exit Country Viewer");
     }
 
     // prompts user to choose action
@@ -80,16 +81,9 @@ public class MessagePrompter {
     public Country promptEditAction(List<Country> countries) {
         System.out.printf("%nYou will update country data now%n");
         Country country = new Country();
+        listCountryCodes(countries);
 
-        // Display all country codes for user to choose
-        int count = 0;
-        for (Country c : countries){
-            System.out.print(c.getCode() + " | ");
-            count++;
-            if (count % 10 == 0){
-                System.out.println();
-            }
-        }
+
         System.out.println("\nPlease enter country code from above list: ");
 
         // Prompts user for data to update
@@ -111,6 +105,18 @@ public class MessagePrompter {
         }
 
         return country;
+    }
+
+    private void listCountryCodes(List<Country> countries) {
+        // Display all country codes for user to choose
+        int count = 0;
+        for (Country c : countries){
+            System.out.print(c.getCode() + " | ");
+            count++;
+            if (count % 10 == 0){
+                System.out.println();
+            }
+        }
     }
 
     // Prompts user for information about country he wants to add to database
@@ -144,5 +150,19 @@ public class MessagePrompter {
         }
 
         return builder.build();
+    }
+
+    public void promptWrongAction() {
+        System.out.println("Unknown option, please try again...");
+    }
+
+    // Prompts user for country code of country he wants to delete
+    public String promptForCountryCode(List<Country> countries) {
+        System.out.printf("%nYou will delete country from database now%n");
+        listCountryCodes(countries);
+        System.out.println("\nPlease enter country code from above list: ");
+
+        input.nextLine();
+        return input.nextLine();
     }
 }
